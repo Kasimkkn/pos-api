@@ -1,14 +1,14 @@
 {
   "name": "pos-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "pos api backend",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "kasim kadiwala",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
