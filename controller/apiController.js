@@ -1,4 +1,5 @@
 import Item from "../models/ItemSchema.js";
+import Category from "../models/categorySchema.js";
 import ExistingCartItem from "../models/existingCartItemSchema.js";
 import LocationInfo from "../models/locationInfoSchema.js";
 import Location from "../models/locationSchema.js";
@@ -6,8 +7,8 @@ import Location from "../models/locationSchema.js";
 export const getProducts = async (req, res, next) => {
     try {
         const products = await Item.find({ status: true });
-        if (products.length === 0) {
-            return res.status(404).json({ message: "No products found" });
+        if (!products) {
+            return res.status(400).json({ message: "No products found" });
         }
         res.status(200).json(products);
     } catch (error) {
@@ -168,5 +169,19 @@ export const deleteItemFromCart = async (req, res) => {
     } catch (error) {
         console.error('Error decrementing product quantity:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+
+export const getCategories = async (req, res, next) => {
+    try {
+        const categories = await Category.find({status : true});
+        if (categories.length === 0) {
+            return res.status(404).json({ message: "No categories found" });
+        }
+        res.status(200).json(categories);
+    } catch (error) {
+        console.error("Error fetching categories", error);
+        next(error);
     }
 }

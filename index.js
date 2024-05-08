@@ -1,7 +1,7 @@
 import express from "express";
 import { connectDB } from "./config/dbConfig.js";
 import cors from "cors";
-import { addNewItemToCart, deleteItemFromCart, getCartItems, getLocations, getProducts, getTables } from "./controller/apiController.js";
+import { addNewItemToCart, deleteItemFromCart, getCartItems, getLocations, getProducts, getTables,getCategories } from "./controller/apiController.js";
 import { config } from "dotenv";
 
 const app = express();
@@ -10,7 +10,7 @@ config({
   path: "./.env",
 });
 
-const url = process.env.MONGO_URI || process.env.MONGO_URI_LOCAL;
+const url = process.env.MONGO_URI_LOCAL;
 
 connectDB(url);
 
@@ -26,11 +26,16 @@ app.get("/", (req, res) => {
   res.send("API Working with /");
 });
 
+// get requests
 app.get("/api/v1/products", getProducts);
 app.get("/api/v1/locations",getLocations);
 app.get("/api/v1/tables",getTables);
-app.post("/api/v1/cartitem",getCartItems);
+app.get("/api/v1/categories",getCategories);
 
+
+
+// post requests
+app.post("/api/v1/cartitem",getCartItems);
 app.post('/api/v1/cart/add', addNewItemToCart);
 app.post('/api/v1/cart/decrement' , deleteItemFromCart)
 

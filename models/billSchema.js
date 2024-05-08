@@ -100,7 +100,7 @@ const billSchema = new mongoose.Schema({
         type:Boolean,
         default:false
      },
-     NEFT_pay:{
+     other_pay:{
         type:Boolean,
         default:false
      },
@@ -146,16 +146,6 @@ const billSchema = new mongoose.Schema({
         default:"CASH"
      }, 
 
-})
-
-
-billSchema.post("save", function (next) {
-   if(this.item_details.length === 0){
-      this.deleteOne();
-   }
-   if(this.final_amount === 0.00){
-      this.deleteOne(); 
-   }
 })
 
 const Bill = mongoose.model("Bill", billSchema);
