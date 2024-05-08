@@ -10,7 +10,7 @@ config({
   path: "./.env",
 });
 
-const url = process.env.MONGO_URI_LOCAL;
+const url = process.env.MONGO_URI;
 
 connectDB(url);
 
