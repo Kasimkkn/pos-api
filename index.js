@@ -1,8 +1,11 @@
 import express from "express";
 import { connectDB } from "./config/dbConfig.js";
 import cors from "cors";
-import { addNewItemToCart, deleteItemFromCart, getCartItems, getLocations, getProducts, getTables,getCategories } from "./controller/apiController.js";
+import { getLocations, getTables,getCategories, userLogin } from "./controller/apiController.js";
 import { config } from "dotenv";
+import { getProducts } from "./controller/productsController.js";
+import { addNewItemToCart, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
+import { createBill } from "./controller/billController.js";
 
 const app = express();
 
@@ -38,6 +41,10 @@ app.get("/api/v1/categories",getCategories);
 app.post("/api/v1/cartitem",getCartItems);
 app.post('/api/v1/cart/add', addNewItemToCart);
 app.post('/api/v1/cart/decrement' , deleteItemFromCart)
+app.post('/api/v1/login' , userLogin);
+
+
+app.post('/api/v1/createbill', createBill);
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
