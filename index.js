@@ -1,9 +1,9 @@
 import express from "express";
 import { connectDB } from "./config/dbConfig.js";
 import cors from "cors";
-import { getLocations, getTables,getCategories, userLogin } from "./controller/apiController.js";
 import { config } from "dotenv";
-import { getProducts } from "./controller/productsController.js";
+import { getLocations, getTables,getCategories, userLogin } from "./controller/apiController.js";
+import { addProducts, getProducts, updateProducts } from "./controller/productsController.js";
 import { addNewItemToCart, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
 import { createBill } from "./controller/billController.js";
 
@@ -36,7 +36,6 @@ app.get("/api/v1/tables",getTables);
 app.get("/api/v1/categories",getCategories);
 
 
-
 // post requests
 app.post("/api/v1/cartitem",getCartItems);
 app.post('/api/v1/cart/add', addNewItemToCart);
@@ -44,6 +43,15 @@ app.post('/api/v1/cart/decrement' , deleteItemFromCart)
 app.post('/api/v1/login' , userLogin);
 
 
+// update requests
+app.put("/api/v1/updateproducts", updateProducts);
+
+
+
+// adding new product
+app.post("/api/v1/newproduct" , addProducts);
+
+// create bill
 app.post('/api/v1/createbill', createBill);
 
 app.listen(3000, () => {
