@@ -4,7 +4,7 @@ import cors from "cors";
 import { config } from "dotenv";
 import {  addKOT, addPreference, changeKOTStatus, getPreference, mergeTables, setMultiPaymode, setSinglePaymode, transferTables, userLogin } from "./controller/apiController.js";
 import { addProducts, getProducts, updateProducts } from "./controller/productsController.js";
-import { addNewItemToCart, addQtyAndSpInfo, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
+import { addNewItemToCart, addQtyAndSpInfo, allCartItems, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
 import { createBill, getBill, getBills } from "./controller/billController.js";
 import { addLocation, getLocations, updateLocation } from "./controller/locationController.js";
 import { addTable, getTables, updateTable } from "./controller/tableController.js";
@@ -44,6 +44,7 @@ app.get("/api/v1/tables",getTables);
 app.get("/api/v1/categories",getCategories);
 app.get("/api/v1/users",getAllUsers);
 app.get("/api/v1/bills",getBills);
+app.get("/api/v1/allcartitems",allCartItems);
 
 
 // post requests

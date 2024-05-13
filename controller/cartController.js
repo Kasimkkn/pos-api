@@ -1,4 +1,5 @@
 import ExistingCartItem from "../models/existingCartItemSchema.js";
+import Item from '../models/ItemSchema.js'
 
 export const getCartItems = async (req, res, next) => {
     try {
@@ -13,7 +14,7 @@ export const getCartItems = async (req, res, next) => {
         next(error);
     }
 }
-export const addNewItemToCart = async (req, res) => {
+export const addNewItemToCart = async (req, res ,next) => {
     const { item_no, table_no, location_name } = req.body;
 
     try {
@@ -98,7 +99,7 @@ export const addNewItemToCart = async (req, res) => {
     }
 }
 
-export const deleteItemFromCart = async (req, res) => {
+export const deleteItemFromCart = async (req, res , next) => {
     const { item_no, table_no, location_name } = req.body;
     try {
         const cartItem = await ExistingCartItem.findOne({
@@ -128,7 +129,7 @@ export const deleteItemFromCart = async (req, res) => {
     }
 }
 
-export const addQtyAndSpInfo = async (req, res) => {
+export const addQtyAndSpInfo = async (req, res,next) => {
     try {
         const { table_no, location_name, item_no, new_quantity, sp_info } = req.body
         let existingCartItem = await ExistingCartItem.findOne({
@@ -225,5 +226,15 @@ export const addQtyAndSpInfo = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Internal server error" + error });
         next(error);
+    }
+}
+
+export const allCartItems = async (req, res, next) => {
+    try {
+        const cartItems = await ExistingCartItem.find();
+        res.status(200).json({ success: true, cartItems });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" + error });
+        next(error);   
     }
 }
