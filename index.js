@@ -2,7 +2,7 @@ import express from "express";
 import { connectDB } from "./config/dbConfig.js";
 import cors from "cors";
 import { config } from "dotenv";
-import {  addKOT, changeKOTStatus, userLogin } from "./controller/apiController.js";
+import {  addKOT, addPreference, changeKOTStatus, getPreference, mergeTables, setMultiPaymode, setSinglePaymode, transferTables, userLogin } from "./controller/apiController.js";
 import { addProducts, getProducts, updateProducts } from "./controller/productsController.js";
 import { addNewItemToCart, addQtyAndSpInfo, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
 import { createBill, getBill, getBills } from "./controller/billController.js";
@@ -86,6 +86,15 @@ app.post('/api/v1/monthly', getMonthlySales);
 app.post('/api/v1/tablewise', getTableWiseSales);
 app.post('/api/v1/itemwise', getItemWiseSales);
 app.post('/api/v1/itemwisemonthly', getItemWiseMonthlySales);
+
+
+// other requests
+app.post('/api/v1/merge', mergeTables);
+app.post('/api/v1/transfer' , transferTables);
+app.post('/api/v1/paymode' , setSinglePaymode);
+app.post('/api/v1/paymodes' , setMultiPaymode);
+app.post('/api/v1/preference' , addPreference);
+app.get('/api/v1/preference' , getPreference);
 
 
 app.listen(3000, () => {

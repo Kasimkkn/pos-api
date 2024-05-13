@@ -1,5 +1,6 @@
 import KOTBook from "../models/KOTbookSchema.js";
 import ExistingCartItem from "../models/existingCartItemSchema.js";
+import Preference from "../models/preferenceSchema.js";
 import User from "../models/userSchema.js";
 
 export const userLogin = async (req, res, next) => {
@@ -104,6 +105,83 @@ export const mergeTables = async (req,res,next)=>{
     try{
         res.status(500).json({
             message:"willl make this soon"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }
+}
+
+export const transferTables = async (req,res,next)=>{
+    try{
+        res.status(500).json({
+            message:"willl make this soon"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }
+}
+
+export const setSinglePaymode = async (req,res,next)=>{
+    try{
+        res.status(500).json({
+            message:"willl make this soon"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }
+}
+
+export const setMultiPaymode = async (req,res,next)=>{
+    try{
+        res.status(500).json({
+            message:"willl make this soon"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }      
+}
+
+export const addPreference = async (req,res,next)=>{
+    try{
+        res.status(500).json({
+            message:"willl make this soon"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }   
+}
+
+export const getPreference = async (req,res,next)=>{
+    try{
+        const data = await Preference.find()
+        res.status(200).json({
+            success: true,
+            data
         })
     }
     catch(error){
