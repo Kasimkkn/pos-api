@@ -4,7 +4,7 @@ import cors from "cors";
 import { config } from "dotenv";
 import {  addKOT, changeKOTStatus, userLogin } from "./controller/apiController.js";
 import { addProducts, getProducts, updateProducts } from "./controller/productsController.js";
-import { addNewItemToCart, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
+import { addNewItemToCart, addQtyAndSpInfo, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
 import { createBill, getBill, getBills } from "./controller/billController.js";
 import { addLocation, getLocations, updateLocation } from "./controller/locationController.js";
 import { addTable, getTables, updateTable } from "./controller/tableController.js";
@@ -34,6 +34,9 @@ app.get("/", (req, res) => {
   res.send("API Working with /");
 });
 
+app.post('/api/v1/login' , userLogin);
+
+
 // get requests
 app.get("/api/v1/products", getProducts);
 app.get("/api/v1/locations",getLocations);
@@ -47,7 +50,7 @@ app.get("/api/v1/bills",getBills);
 app.post("/api/v1/cartitem",getCartItems);
 app.post('/api/v1/cart/add', addNewItemToCart);
 app.post('/api/v1/cart/decrement' , deleteItemFromCart)
-app.post('/api/v1/login' , userLogin);
+app.post('/api/v1/cart/addqtyandsp' , addQtyAndSpInfo)
 
 
 // adding request
