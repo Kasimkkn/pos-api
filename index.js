@@ -2,10 +2,13 @@ import express from "express";
 import { connectDB } from "./config/dbConfig.js";
 import cors from "cors";
 import { config } from "dotenv";
-import { getLocations, getTables,getCategories, userLogin } from "./controller/apiController.js";
+import {  userLogin } from "./controller/apiController.js";
 import { addProducts, getProducts, updateProducts } from "./controller/productsController.js";
 import { addNewItemToCart, deleteItemFromCart, getCartItems } from "./controller/cartController.js";
 import { createBill } from "./controller/billController.js";
+import { addLocation, getLocations, updateLocation } from "./controller/locationController.js";
+import { addTable, getTables, updateTable } from "./controller/tableController.js";
+import { addCategory, getCategories, updateCategory } from "./controller/categoriesController.js";
 
 const app = express();
 
@@ -43,13 +46,22 @@ app.post('/api/v1/cart/decrement' , deleteItemFromCart)
 app.post('/api/v1/login' , userLogin);
 
 
+
+
+// adding request
+app.post("/api/v1/newproduct" , addProducts);
+app.post("/api/v1/addlocation", addLocation);
+app.post('/api/v1/addtables' , addTable)
+app.post('/api/v1/addcategories' , addCategory);
+
 // update requests
 app.put("/api/v1/updateproducts", updateProducts);
+app.put("/api/v1/updatelocation", updateLocation);
+app.put("/api/v1/updatetable", updateTable);
+app.put("/api/v1/updatecategory", updateCategory);
 
 
 
-// adding new product
-app.post("/api/v1/newproduct" , addProducts);
 
 // create bill
 app.post('/api/v1/createbill', createBill);

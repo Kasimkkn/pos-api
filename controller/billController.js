@@ -82,7 +82,8 @@ export const createBill = async (req,res,next) =>{
 
           res.status(200).json({
             success:true,
-            message:"bill created"
+            message:"bill created",
+            
         })
         } catch (error) {
           console.log("Error removing items from cart:", error);
