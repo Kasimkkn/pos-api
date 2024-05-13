@@ -5,7 +5,10 @@ import ExistingCartItem from '../models/existingCartItemSchema.js';
 
 export const createBill = async (req,res,next) =>{
     try {
-        let  {billData} = req.body
+      let billData = req.body;
+        if(!billData){
+          return res.status(400).json({ message: "Incomplete data" });
+        }
         const latestKOTNo = await KOTBook.findOne({ status: true }, { KOT_book: 1 }).sort({
           KOT_book: -1,
         });
