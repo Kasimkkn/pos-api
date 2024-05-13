@@ -9,6 +9,7 @@ import { createBill } from "./controller/billController.js";
 import { addLocation, getLocations, updateLocation } from "./controller/locationController.js";
 import { addTable, getTables, updateTable } from "./controller/tableController.js";
 import { addCategory, getCategories, updateCategory } from "./controller/categoriesController.js";
+import { getDailySales, getItemWiseMonthlySales, getItemWiseSales, getMonthlySales, getTableWiseSales } from "./controller/reportController.js";
 
 const app = express();
 
@@ -46,12 +47,10 @@ app.post('/api/v1/cart/decrement' , deleteItemFromCart)
 app.post('/api/v1/login' , userLogin);
 
 
-
-
 // adding request
 app.post("/api/v1/newproduct" , addProducts);
 app.post("/api/v1/addlocation", addLocation);
-app.post('/api/v1/addtables' , addTable)
+app.post('/api/v1/addtable' , addTable)
 app.post('/api/v1/addcategories' , addCategory);
 
 // update requests
@@ -61,10 +60,17 @@ app.put("/api/v1/updatetable", updateTable);
 app.put("/api/v1/updatecategory", updateCategory);
 
 
-
-
 // create bill
 app.post('/api/v1/createbill', createBill);
+
+
+// report requests
+app.post('/api/v1/daily', getDailySales);
+app.post('/api/v1/monthly', getMonthlySales);
+app.post('/api/v1/tablewise', getTableWiseSales);
+app.post('/api/v1/itemwise', getItemWiseSales);
+app.post('/api/v1/itemwisemonthly', getItemWiseMonthlySales);
+
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");

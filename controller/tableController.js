@@ -22,7 +22,7 @@ export const addTable = async (req, res, next) => {
       location_no,
     });
     const prefix = location.location_name.substring(0, 3).toUpperCase();
-    const serial_no = `${prefix}${tableData.newTableNo}`;
+    const serial_no = `${prefix}${table_no}`;
 
     const table = await LocationInfo.create({
       serial_no,

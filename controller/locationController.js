@@ -42,8 +42,18 @@ export const updateLocation = async (req, res, next) => {
         if (!existingLocation) {
             return res.status(404).json({ message: "Location not found" });
         }
-        existingLocation.location_name = location_name;
-        existingLocation.status = status;
+        if(!location_name && !status){
+            return res.status(404).json({ message: "Please provide location_name or status" });
+        }
+        if(location_name === existingLocation.location_name){
+            return res.status(404).json({ message: "Location already exists" });
+        }
+        if(location_name){
+            existingLocation.location_name = location_name;
+        }
+        if(status){
+            existingLocation.status = status;
+        }
         await existingLocation.save();
         res.status(200).json({ message: "Location updated successfully" });
     } catch (error) {
