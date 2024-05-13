@@ -1,6 +1,6 @@
+import KOTBook from "../models/KOTbookSchema.js";
+import ExistingCartItem from "../models/existingCartItemSchema.js";
 import User from "../models/userSchema.js";
-
-
 
 export const userLogin = async (req, res, next) => {
     try{
@@ -24,8 +24,79 @@ export const userLogin = async (req, res, next) => {
          res.status(200).json(userData);
     }
     catch(error){
-        console.log("error on user login" , error);
-        next(error)
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }
+}
+
+export const addKOT = async (req,res,next)=>{
+    try{
+    const maxKot = await KOTBook.findOne({}, { KOT_book: 1 }).sort({ KOT_book: -1 });
+    let maxKotNo = 0;
+    if (maxKot) {
+      maxKotNo = maxKot.KOT_book;
+    }
+    const newKotNo = maxKotNo + 1;
+    const data = await KOTBook.create({
+      KOT_book : newKotNo,
+      is_active: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: "KOT created successfully",
+      data
+    });
+  }
+  catch(error){
+    res.status(500).json({
+        success: false,
+        message: "Internal server error" + error
+    })   
+    next(error);
+  }
+}
+
+export const changeKOTStatus = async (req,res,next)=>{
+    try{
+        const {table_no , location_name} = req.body
+        if(!table_no || !location_name){
+            return res.status(401).json({
+                success:false,
+                message:"please provide table_no and location_name"
+            })
+        }
+        const existingItems = await ExistingCartItem.find({
+            table_no,
+            location_name
+        })
+        if(!existingItems){
+            return res.status(401).json({
+                success:false,
+                message:"no items found"
+            })
+        }
+        for(let i = 0; i < existingItems.length; i++){
+            await ExistingCartItem.updateOne({
+                _id: existingItems[i]._id
+            },{
+                is_printed: true,
+                is_added_new_item: false
+            })
+        }
+        res.status(200).json({
+            success: true,
+            message: "KOT status changed successfully"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
     }
 }
 
@@ -36,7 +107,10 @@ export const mergeTables = async (req,res,next)=>{
         })
     }
     catch(error){
-        console.log("error merging table" , error);
-        next(error)
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
     }
 }

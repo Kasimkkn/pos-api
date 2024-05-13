@@ -1,6 +1,7 @@
 import KOTBook from '../models/KOTbookSchema.js';
 import BillBook from '../models/billBookSchema.js';
 import Bill from '../models/billSchema.js'
+import ExistingCartItem from '../models/existingCartItemSchema.js';
 
 export const createBill = async (req,res,next) =>{
     try {
@@ -34,28 +35,28 @@ export const createBill = async (req,res,next) =>{
     
           switch (billData.location_name) {
             case "Common-Hall":
-              billData.common = billData.parseTotalAmount;
+              billData.common = Number(billData.final_amount).toFixed(2);
               break;
             case "Rooms":
-              billData.room = billData.parseTotalAmount;
+              billData.room = Number(billData.final_amount).toFixed(2);
               break;
             case "Ac-Hall":
-              billData.ac = billData.parseTotalAmount;
+              billData.ac = Number(billData.final_amount).toFixed(2);
               break;
             case "Banquet":
-              billData.banquet = billData.parseTotalAmount;
+              billData.banquet = Number(billData.final_amount).toFixed(2);
               break;
             case "Parcel":
-              billData.parcel = billData.parseTotalAmount;
+              billData.parcel = Number(billData.final_amount).toFixed(2);
               break;
             case "Swiggy":
-              billData.swiggy = billData.parseTotalAmount;
+              billData.swiggy = Number(billData.final_amount).toFixed(2);
               break;
             case "Zomato":
-              billData.zomato = billData.parseTotalAmount;
+              billData.zomato = Number(billData.final_amount).toFixed(2);
               break;
             default:
-              billData.common = billData.parseTotalAmount;
+              billData.common = Number(billData.final_amount).toFixed(2);
               break;
           }
         }
@@ -72,10 +73,9 @@ export const createBill = async (req,res,next) =>{
         billData.discount_perc = Number(billData.discount_perc);
         billData.pay_mode = "unpaid";
         billData.created_at = Date.now();
-    
-        await Bill.create(billData);
+        const createBill =  await Bill.create(billData);
         try {
-          const cartItems = await ExistingCartItem.deleteMany({
+            await ExistingCartItem.deleteMany({
             table_no: billData.table_no,
             location_name: billData.location_name,
           });
@@ -83,13 +83,48 @@ export const createBill = async (req,res,next) =>{
           res.status(200).json({
             success:true,
             message:"bill created",
-            
+            createBill
         })
         } catch (error) {
-          console.log("Error removing items from cart:", error);
+          res.status(500).json({
+              success: false,
+              message: "Internal server error" + error
+          })   
+          next(error);
         }
       } catch (error) {
-        console.log("Error creating new bill:", error);
-        next(error)
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
       }
 }
+
+export const getBill = async (req,res,next) =>{
+    try {
+        const {bill_no} = req.body
+        const bill = await Bill.findOne({bill_no})
+        res.status(200).json(bill)
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }
+}
+
+export const getBills = async (req,res,next) =>{
+    try {
+        const bills = await Bill.find({})
+        res.status(200).json(bills)
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error" + error
+        })   
+        next(error);
+    }
+}
+
